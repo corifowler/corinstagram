@@ -4,9 +4,9 @@ export default React.createClass({
 
   render() {
     return (
-      <div className="image-view" picId={this.props.picId}>
-        <img src={this.props.photo}/>
-        <p>{this.props.caption}</p>
+      <div className="image-view" id={this.props.images.id}>
+        <img src={this.props.images.photo}/>
+        <p>{this.props.images.caption}</p>
       </div>
     );
 

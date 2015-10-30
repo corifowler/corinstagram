@@ -46,16 +46,23 @@ export default Backbone.Router.extend({
   },
 
   showPost(id) {
+
+    // let photoPost = this.collection.find(item => item.objectId === id); 
+
+    // photoPost.render(<PhotoView id={photoPost.id}/>);
+
+    console.log('should show post with:' + id);
     let photoPost = this.collection.get(id);
+    // photoPost.render(<PhotoView/>);
 
     if (photoPost) {
-      console.log(this.picId);
-      this.render(<PhotoView/>);
+      console.log(photoPost);
+      this.render(<PhotoView images={photoPost.toJSON()}/>);
     } else {
-      console.log(this.picId);
-      photoPost = this.collection.add({objectId:id});
+      console.log('adding this model');
+      photoPost = this.collection.add(id);
       photoPost.fetch().then( () => {
-        this.render(<PhotoView/>);
+        this.render(<PhotoView images={photoPost.toJSON()}/>);
       });
     }
   }

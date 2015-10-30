@@ -190,16 +190,22 @@ exports['default'] = _backbone2['default'].Router.extend({
   showPost: function showPost(id) {
     var _this2 = this;
 
+    // let photoPost = this.collection.find(item => item.objectId === id);
+
+    // photoPost.render(<PhotoView id={photoPost.id}/>);
+
+    console.log('should show post with:' + id);
     var photoPost = this.collection.get(id);
+    // photoPost.render(<PhotoView/>);
 
     if (photoPost) {
-      console.log(this.picId);
-      this.render(_react2['default'].createElement(_views.PhotoPost, null));
+      console.log(photoPost);
+      this.render(_react2['default'].createElement(_views.PhotoPost, { images: photoPost.toJSON() }));
     } else {
-      console.log(this.picId);
-      photoPost = this.collection.add({ objectId: id });
+      console.log('adding this model');
+      photoPost = this.collection.add(id);
       photoPost.fetch().then(function () {
-        _this2.render(_react2['default'].createElement(_views.PhotoPost, null));
+        _this2.render(_react2['default'].createElement(_views.PhotoPost, { images: photoPost.toJSON() }));
       });
     }
   }
@@ -289,12 +295,12 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     return _react2["default"].createElement(
       "div",
-      { className: "image-view", picId: this.props.picId },
-      _react2["default"].createElement("img", { src: this.props.photo }),
+      { className: "image-view", id: this.props.images.id },
+      _react2["default"].createElement("img", { src: this.props.images.photo }),
       _react2["default"].createElement(
         "p",
         null,
-        this.props.caption
+        this.props.images.caption
       )
     );
   }
