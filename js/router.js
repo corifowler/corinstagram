@@ -41,7 +41,7 @@ export default Backbone.Router.extend({
 
   showGallery() {
     this.collection.fetch().then( () => {
-      this.render(<GalleryView onClick={(event) => this.navigate(`photopost/${picId}`, {trigger: true})} images={this.collection.toJSON()}/>);
+      this.render(<GalleryView id={this.collection.objectId} onClick={(id) => this.goto('photopost/' + id)} images={this.collection.toJSON()}/>);
     });
   },
 
@@ -49,8 +49,10 @@ export default Backbone.Router.extend({
     let photoPost = this.collection.get(id);
 
     if (photoPost) {
+      console.log(this.picId);
       this.render(<PhotoView/>);
     } else {
+      console.log(this.picId);
       photoPost = this.collection.add({objectId:id});
       photoPost.fetch().then( () => {
         this.render(<PhotoView/>);

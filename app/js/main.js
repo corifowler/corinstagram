@@ -181,8 +181,8 @@ exports['default'] = _backbone2['default'].Router.extend({
     var _this = this;
 
     this.collection.fetch().then(function () {
-      _this.render(_react2['default'].createElement(_views.Gallery, { onClick: function (event) {
-          return _this.navigate('photopost/' + picId, { trigger: true });
+      _this.render(_react2['default'].createElement(_views.Gallery, { id: _this.collection.objectId, onClick: function (id) {
+          return _this.goto('photopost/' + id);
         }, images: _this.collection.toJSON() }));
     });
   },
@@ -193,8 +193,10 @@ exports['default'] = _backbone2['default'].Router.extend({
     var photoPost = this.collection.get(id);
 
     if (photoPost) {
+      console.log(this.picId);
       this.render(_react2['default'].createElement(_views.PhotoPost, null));
     } else {
+      console.log(this.picId);
       photoPost = this.collection.add({ objectId: id });
       photoPost.fetch().then(function () {
         _this2.render(_react2['default'].createElement(_views.PhotoPost, null));
@@ -221,15 +223,19 @@ var _react2 = _interopRequireDefault(_react);
 exports["default"] = _react2["default"].createClass({
   displayName: "gallery",
 
-  viewPhoto: function viewPhoto() {
-    this.props.onClick();
+  viewPhoto: function viewPhoto(id) {
+    this.props.onClick(id);
   },
 
   processData: function processData(data) {
+    var _this = this;
+
     return _react2["default"].createElement(
       "div",
       { key: data.objectId },
-      _react2["default"].createElement("img", { onClick: this.viewPhoto, picId: data.objectId, src: data.photo })
+      _react2["default"].createElement("img", { id: data.objectId, onClick: function () {
+          return _this.viewPhoto(data.objectId);
+        }, src: data.photo })
     );
   },
 
@@ -283,7 +289,7 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     return _react2["default"].createElement(
       "div",
-      { className: "image-view" },
+      { className: "image-view", picId: this.props.picId },
       _react2["default"].createElement("img", { src: this.props.photo }),
       _react2["default"].createElement(
         "p",
