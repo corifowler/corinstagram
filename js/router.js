@@ -8,6 +8,7 @@ import {Photo as PhotoModel} from './resources';
 
 import {Gallery as GalleryView} from './views';
 import {PhotoPost as PhotoView} from './views';
+import {AddPost} from './views';
 
 export default Backbone.Router.extend({
 
@@ -42,19 +43,13 @@ export default Backbone.Router.extend({
 
   showGallery() {
     this.collection.fetch().then( () => {
-      this.render(<GalleryView id={this.collection.objectId} onClick={(id) => this.goto('photopost/' + id)} images={this.collection.toJSON()}/>);
+      this.render(<GalleryView id={this.collection.objectId} onAddClick={() => this.goto('addphoto')} onClick={(id) => this.goto('photopost/' + id)} images={this.collection.toJSON()}/>);
     });
   },
 
   showPost(id) {
-
-    // let photoPost = this.collection.find(item => item.objectId === id); 
-
-    // photoPost.render(<PhotoView id={photoPost.id}/>);
-
     console.log('should show post with:' + id);
     let photoPost = this.collection.get(id);
-    // photoPost.render(<PhotoView/>);
 
     if (photoPost) {
       console.log(photoPost);
@@ -66,6 +61,11 @@ export default Backbone.Router.extend({
         this.render(<PhotoView images={photoPost.toJSON()}/>);
       });
     }
+  },
+
+  addPhoto() {
+    console.log('this is the add photo form view');
+    this.render(<AddPost/>);
   }
 
 

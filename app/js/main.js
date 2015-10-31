@@ -182,7 +182,9 @@ exports['default'] = _backbone2['default'].Router.extend({
     var _this = this;
 
     this.collection.fetch().then(function () {
-      _this.render(_react2['default'].createElement(_views.Gallery, { id: _this.collection.objectId, onClick: function (id) {
+      _this.render(_react2['default'].createElement(_views.Gallery, { id: _this.collection.objectId, onAddClick: function () {
+          return _this.goto('addphoto');
+        }, onClick: function (id) {
           return _this.goto('photopost/' + id);
         }, images: _this.collection.toJSON() }));
     });
@@ -191,13 +193,8 @@ exports['default'] = _backbone2['default'].Router.extend({
   showPost: function showPost(id) {
     var _this2 = this;
 
-    // let photoPost = this.collection.find(item => item.objectId === id);
-
-    // photoPost.render(<PhotoView id={photoPost.id}/>);
-
     console.log('should show post with:' + id);
     var photoPost = this.collection.get(id);
-    // photoPost.render(<PhotoView/>);
 
     if (photoPost) {
       console.log(photoPost);
@@ -209,36 +206,17 @@ exports['default'] = _backbone2['default'].Router.extend({
         _this2.render(_react2['default'].createElement(_views.PhotoPost, { images: photoPost.toJSON() }));
       });
     }
+  },
+
+  addPhoto: function addPhoto() {
+    console.log('this is the add photo form view');
+    this.render(_react2['default'].createElement(_views.AddPost, null));
   }
 
 });
 module.exports = exports['default'];
 
 },{"./resources":4,"./views":9,"backbone":11,"jquery":13,"react":171,"react-dom":15}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-exports['default'] = _react2['default'].createClass({
-  displayName: 'add_post',
-
-  render: function render() {
-
-    console.log('form template goes here');
-  }
-
-});
-module.exports = exports['default'];
-
-},{"react":171}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -252,34 +230,133 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 exports["default"] = _react2["default"].createClass({
-  displayName: "gallery",
+  displayName: "add_post",
+
+  render: function render() {
+    return _react2["default"].createElement(
+      "div",
+      null,
+      _react2["default"].createElement(
+        "div",
+        { className: "header" },
+        _react2["default"].createElement("img", { src: this.props.images.user }),
+        _react2["default"].createElement(
+          "button",
+          null,
+          "Home"
+        ),
+        _react2["default"].createElement(
+          "button",
+          null,
+          "Add"
+        ),
+        _react2["default"].createElement(
+          "button",
+          null,
+          "Edit"
+        )
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "new-post" },
+        _react2["default"].createElement(
+          "form",
+          null,
+          _react2["default"].createElement(
+            "label",
+            null,
+            "Image URL: ",
+            _react2["default"].createElement("input", { type: "text", className: "photo" })
+          ),
+          _react2["default"].createElement(
+            "label",
+            null,
+            "Caption: ",
+            _react2["default"].createElement("input", { type: "text", className: "caption" })
+          )
+        )
+      )
+    );
+  }
+
+});
+module.exports = exports["default"];
+
+},{"react":171}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+exports['default'] = _react2['default'].createClass({
+  displayName: 'gallery',
 
   viewPhoto: function viewPhoto(id) {
     this.props.onClick(id);
   },
 
+  addFormView: function addFormView() {
+    console.log('this button is being clicked');
+    this.props.onAddClick();
+  },
+
   processData: function processData(data) {
     var _this = this;
 
-    return _react2["default"].createElement(
-      "div",
+    return _react2['default'].createElement(
+      'div',
       { key: data.objectId },
-      _react2["default"].createElement("img", { id: data.objectId, onClick: function () {
+      _react2['default'].createElement('img', { id: data.objectId, onClick: function () {
           return _this.viewPhoto(data.objectId);
         }, src: data.photo })
     );
   },
 
   render: function render() {
-    return _react2["default"].createElement(
-      "div",
-      { className: "gallery-images" },
-      this.props.images.map(this.processData)
+    var _this2 = this;
+
+    return _react2['default'].createElement(
+      'div',
+      null,
+      _react2['default'].createElement(
+        'div',
+        { id: this.props.images.id, className: 'header' },
+        _react2['default'].createElement('img', { src: 'https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg' }),
+        _react2['default'].createElement(
+          'button',
+          null,
+          'Home'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { onClick: function () {
+              return _this2.addFormView();
+            } },
+          'Add'
+        ),
+        _react2['default'].createElement(
+          'button',
+          null,
+          'Edit'
+        )
+      ),
+      _react2['default'].createElement(
+        'div',
+        { className: 'gallery-images' },
+        this.props.images.map(this.processData)
+      )
     );
   }
 
 });
-module.exports = exports["default"];
+module.exports = exports['default'];
 
 },{"react":171}],9:[function(require,module,exports){
 'use strict';
@@ -325,12 +402,36 @@ exports["default"] = _react2["default"].createClass({
   render: function render() {
     return _react2["default"].createElement(
       "div",
-      { className: "image-view", id: this.props.images.id },
-      _react2["default"].createElement("img", { src: this.props.images.photo }),
+      null,
       _react2["default"].createElement(
-        "p",
-        null,
-        this.props.images.caption
+        "div",
+        { className: "header" },
+        _react2["default"].createElement("img", { src: this.props.images.user }),
+        _react2["default"].createElement(
+          "button",
+          null,
+          "Home"
+        ),
+        _react2["default"].createElement(
+          "button",
+          null,
+          "Add"
+        ),
+        _react2["default"].createElement(
+          "button",
+          null,
+          "Edit"
+        )
+      ),
+      _react2["default"].createElement(
+        "div",
+        { className: "image-view", id: this.props.images.id },
+        _react2["default"].createElement("img", { src: this.props.images.photo }),
+        _react2["default"].createElement(
+          "p",
+          null,
+          this.props.images.caption
+        )
       )
     );
   }
