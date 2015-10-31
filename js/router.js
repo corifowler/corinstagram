@@ -14,7 +14,8 @@ export default Backbone.Router.extend({
   routes: {
     "": "redirectToGallery",
     "gallery": "showGallery",
-    "photopost/:id": "showPost"
+    "photopost/:id": "showPost",
+    "addphoto": "addForm"
   },
 
   initialize(appElement) {
