@@ -2,14 +2,29 @@ import React from 'react';
 
 export default React.createClass({
 
+  goHomeView() {
+    console.log('home button being clicked');
+    this.props.onHomeClick();
+  },
+
+  addFormView() {
+    console.log('this button is being clicked');
+    this.props.onAddClick();
+  },
+
+  editFormView() {
+    console.log('the edit button is being clicked');
+    this.props.onEditClick();
+  },
+
   render() {
     return (
       <div>
         <div className="header">
-          <img src={this.props.images.user}/>
-          <button>Home</button>
-          <button>Add</button>
-          <button>Edit</button>
+          <img src="https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg"/>
+          <button onClick={() => this.goHomeView()}>Home</button>
+          <button onClick={() => this.addFormView()}>Add</button>
+          <button onClick={() => this.editFormView()}>Edit</button>
         </div> 
         <div className="new-post">
           <form>
