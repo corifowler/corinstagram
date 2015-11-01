@@ -253,6 +253,22 @@ exports['default'] = _backbone2['default'].Router.extend({
       },
       onEditClick: function () {
         return _this3.goto('editphoto');
+      },
+      onSubmitClick: function () {
+        var newPhoto = document.querySelector('.photo').value;
+        var newCaption = document.querySelector('.caption').value;
+
+        var instaModel = new _resources.Photo({
+          photo: newPhoto,
+          caption: newCaption
+        });
+
+        _this3.collection.add(instaModel);
+
+        instaModel.save().then(function () {
+          alert('Your post has been added!');
+          _this3.goto('');
+        });
       } }));
   },
 
@@ -307,6 +323,11 @@ exports['default'] = _react2['default'].createClass({
     this.props.onEditClick();
   },
 
+  addNewPost: function addNewPost() {
+    console.log('new post being uploaded');
+    this.props.onSubmitClick();
+  },
+
   render: function render() {
     var _this = this;
 
@@ -356,6 +377,13 @@ exports['default'] = _react2['default'].createClass({
             null,
             'Caption: ',
             _react2['default'].createElement('input', { type: 'text', className: 'caption' })
+          ),
+          _react2['default'].createElement(
+            'button',
+            { onClick: function () {
+                return _this.addNewPost();
+              } },
+            'Submit Post'
           )
         )
       )

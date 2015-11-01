@@ -85,7 +85,22 @@ export default Backbone.Router.extend({
       images={this.collection.toJSON()}
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
-      onEditClick={() => this.goto('editphoto')}/>      
+      onEditClick={() => this.goto('editphoto')}
+      onSubmitClick={() => {
+        let newPhoto = document.querySelector('.photo').value;
+        let newCaption = document.querySelector('.caption').value;
+
+        let instaModel = new PhotoModel({
+          photo: newPhoto,
+          caption: newCaption
+        });
+
+        this.collection.add(instaModel);
+
+        instaModel.save().then(() => {
+          alert('Your post has been added!');
+          this.goto('');
+        });}}/>      
     );
   },
 
