@@ -12,11 +12,6 @@ export default React.createClass({
     this.props.onAddClick();
   },
 
-  editFormView() {
-    console.log('the edit button is being clicked');
-    this.props.onEditClick();
-  },
-
   addNewPost() {
     console.log('new post being uploaded');
     this.props.onSubmitClick();
@@ -29,7 +24,6 @@ export default React.createClass({
           <img src="https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg"/>
           <button onClick={() => this.goHomeView()}>Home</button>
           <button onClick={() => this.addFormView()}>Add</button>
-          <button onClick={() => this.editFormView()}>Edit</button>
         </div> 
         <div className="new-post">
           <form>

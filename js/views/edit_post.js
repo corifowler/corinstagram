@@ -2,6 +2,25 @@ import React from 'react';
 
 export default React.createClass({
 
+  getInitialState() {
+    return ({
+      photo: this.props.stored.photo,
+      caption: this.props.stored.caption
+    });
+  },
+
+  updatePhoto(event) {
+    let newPhoto = event.currentTarget.value;
+
+    this.setState({photo: newPhoto});
+  },
+
+  updateCaption(event) {
+    let newCaption = event.currentTarget.value;
+
+    this.setState({caption: newCaption});
+  },
+
   goHomeView() {
     console.log('home button being clicked');
     this.props.onHomeClick();
@@ -33,8 +52,8 @@ export default React.createClass({
         </div> 
         <div className="new-post">
           <form>
-            <label>Image URL: <input type="text" className="photo"/></label>
-            <label>Caption: <input type="text" className="caption"/></label>
+            <label>Image URL: <input onChange={this.updatePhoto} type="text" className="photo" value={this.state.photo}/></label>
+            <label>Caption: <input onChange={this.updateCaption} type="text" className="caption" value={this.state.caption}/></label>
             <button onClick={() => this.addChanges()}>Submit Changes</button>
           </form>
         </div>

@@ -10,6 +10,7 @@ import {Gallery as GalleryView} from './views';
 import {PhotoPost as PhotoView} from './views';
 import {AddPost} from './views';
 import {EditPost} from './views';
+import {Spinner} from './views';
 
 export default Backbone.Router.extend({
 
@@ -43,20 +44,25 @@ export default Backbone.Router.extend({
     this.navigate('gallery', {replace: true, trigger: true});
   },
 
+  spinner() {
+    this.render(<Spinner/>);
+  },
+
   showGallery() {
+    this.spinner();
     this.collection.fetch().then( () => {
-      this.render(<GalleryView 
-        id={this.collection.objectId}
-        onHomeClick={() => this.goto('')} 
-        onAddClick={() => this.goto('addphoto')} 
-        onEditClick={() => this.goto('editphoto/' + id)}
-        onClick={(id) => this.goto('photopost/' + id)} 
-        images={this.collection.toJSON()}/>);
+    this.render(<GalleryView 
+      id={this.collection.objectId}
+      onHomeClick={() => this.goto('')} 
+      onAddClick={() => this.goto('addphoto')} 
+      onEditClick={() => this.goto('editphoto/' + id)}
+      onClick={(id) => this.goto('photopost/' + id)} 
+      images={this.collection.toJSON()}/>);
     });
   },
 
   showPost(id) {
-    console.log('should show post with:' + id);
+    this.spinner();
     let photoPost = this.collection.get(id);
 
     if (photoPost) {
@@ -80,7 +86,7 @@ export default Backbone.Router.extend({
   },
 
   addForm() {
-    console.log('this is the add photo form view');
+    this.spinner();
     this.render(<AddPost 
       images={this.collection.toJSON()}
       onHomeClick={() => this.goto('')}
@@ -104,9 +110,10 @@ export default Backbone.Router.extend({
   },
 
   editForm(id) {
-    let editId = id;
+    this.spinner();
+    let editId = this.collection.get(id);
     this.render(<EditPost
-      images={this.collection.toJSON()}
+      stored={editId.toJSON()}
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
       onSubmitChangesClick={() => {
@@ -114,7 +121,7 @@ export default Backbone.Router.extend({
         let changedCaption = document.querySelector('.caption').value;
 
         let instaChange = new PhotoModel({
-          objectId: editId,
+          objectId: id,
           photo: changedPhoto,
           caption: changedCaption
         });
