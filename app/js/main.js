@@ -154,7 +154,7 @@ exports['default'] = _backbone2['default'].Router.extend({
     "gallery": "showGallery",
     "photopost/:id": "showPost",
     "addphoto": "addForm",
-    "editphoto": "editForm"
+    "editphoto/:id": "editForm"
   },
 
   initialize: function initialize(appElement) {
@@ -192,7 +192,7 @@ exports['default'] = _backbone2['default'].Router.extend({
           return _this.goto('addphoto');
         },
         onEditClick: function () {
-          return _this.goto('editphoto');
+          return _this.goto('editphoto/' + id);
         },
         onClick: function (id) {
           return _this.goto('photopost/' + id);
@@ -218,7 +218,7 @@ exports['default'] = _backbone2['default'].Router.extend({
           return _this2.goto('addphoto');
         },
         onEditClick: function () {
-          return _this2.goto('editphoto');
+          return _this2.goto('editphoto/' + id);
         } }));
     } else {
       console.log('adding this model');
@@ -233,7 +233,7 @@ exports['default'] = _backbone2['default'].Router.extend({
             return _this2.goto('addphoto');
           },
           onEditClick: function () {
-            return _this2.goto('editphoto');
+            return _this2.goto('editphoto/' + id);
           } }));
       });
     }
@@ -250,9 +250,6 @@ exports['default'] = _backbone2['default'].Router.extend({
       },
       onAddClick: function () {
         return _this3.goto('addphoto');
-      },
-      onEditClick: function () {
-        return _this3.goto('editphoto');
       },
       onSubmitClick: function () {
         var newPhoto = document.querySelector('.photo').value;
@@ -272,10 +269,10 @@ exports['default'] = _backbone2['default'].Router.extend({
       } }));
   },
 
-  editForm: function editForm() {
+  editForm: function editForm(id) {
     var _this4 = this;
 
-    console.log('this is the edit photo form view');
+    var editId = id;
     this.render(_react2['default'].createElement(_views.EditPost, {
       images: this.collection.toJSON(),
       onHomeClick: function () {
@@ -284,8 +281,22 @@ exports['default'] = _backbone2['default'].Router.extend({
       onAddClick: function () {
         return _this4.goto('addphoto');
       },
-      onEditClick: function () {
-        return _this4.goto('editphoto');
+      onSubmitChangesClick: function () {
+        var changedPhoto = document.querySelector('.photo').value;
+        var changedCaption = document.querySelector('.caption').value;
+
+        var instaChange = new _resources.Photo({
+          objectId: editId,
+          photo: changedPhoto,
+          caption: changedCaption
+        });
+
+        _this4.collection.add(instaChange);
+
+        instaChange.save().then(function () {
+          alert('Your changes have been saved.');
+          _this4.goto('');
+        });
       } }));
   }
 
@@ -424,6 +435,11 @@ exports['default'] = _react2['default'].createClass({
     this.props.onEditClick();
   },
 
+  addChanges: function addChanges() {
+    console.log('changes are being added');
+    this.props.onSubmitChangesClick();
+  },
+
   render: function render() {
     var _this = this;
 
@@ -473,6 +489,13 @@ exports['default'] = _react2['default'].createClass({
             null,
             'Caption: ',
             _react2['default'].createElement('input', { type: 'text', className: 'caption' })
+          ),
+          _react2['default'].createElement(
+            'button',
+            { onClick: function () {
+                return _this.addChanges();
+              } },
+            'Submit Changes'
           )
         )
       )

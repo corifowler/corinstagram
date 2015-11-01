@@ -18,7 +18,7 @@ export default Backbone.Router.extend({
     "gallery": "showGallery",
     "photopost/:id": "showPost",
     "addphoto": "addForm",
-    "editphoto": "editForm"
+    "editphoto/:id": "editForm"
   },
 
   initialize(appElement) {
@@ -49,7 +49,7 @@ export default Backbone.Router.extend({
         id={this.collection.objectId}
         onHomeClick={() => this.goto('')} 
         onAddClick={() => this.goto('addphoto')} 
-        onEditClick={() => this.goto('editphoto')}
+        onEditClick={() => this.goto('editphoto/' + id)}
         onClick={(id) => this.goto('photopost/' + id)} 
         images={this.collection.toJSON()}/>);
     });
@@ -65,7 +65,7 @@ export default Backbone.Router.extend({
         images={photoPost.toJSON()}
         onHomeClick={() => this.goto('')}
         onAddClick={() => this.goto('addphoto')}
-        onEditClick={() => this.goto('editphoto')}/>);
+        onEditClick={() => this.goto('editphoto/' + id)}/>);
     } else {
       console.log('adding this model');
       photoPost = this.collection.add(id);
@@ -74,7 +74,7 @@ export default Backbone.Router.extend({
           images={photoPost.toJSON()}
           onHomeClick={() => this.goto('')}
           onAddClick={() => this.goto('addphoto')}
-          onEditClick={() => this.goto('editphoto')}/>);
+          onEditClick={() => this.goto('editphoto/' + id)}/>);
       });
     }
   },
@@ -85,7 +85,6 @@ export default Backbone.Router.extend({
       images={this.collection.toJSON()}
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
-      onEditClick={() => this.goto('editphoto')}
       onSubmitClick={() => {
         let newPhoto = document.querySelector('.photo').value;
         let newCaption = document.querySelector('.caption').value;
@@ -104,13 +103,28 @@ export default Backbone.Router.extend({
     );
   },
 
-  editForm() {
-    console.log('this is the edit photo form view');
+  editForm(id) {
+    let editId = id;
     this.render(<EditPost
       images={this.collection.toJSON()}
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
-      onEditClick={() => this.goto('editphoto')}/>
+      onSubmitChangesClick={() => {
+        let changedPhoto = document.querySelector('.photo').value;
+        let changedCaption = document.querySelector('.caption').value;
+
+        let instaChange = new PhotoModel({
+          objectId: editId,
+          photo: changedPhoto,
+          caption: changedCaption
+        });
+
+        this.collection.add(instaChange);
+
+        instaChange.save().then(() => {
+          alert('Your changes have been saved.');
+          this.goto('');
+        });}}/>
     );
   }
 

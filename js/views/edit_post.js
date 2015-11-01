@@ -17,6 +17,11 @@ export default React.createClass({
     this.props.onEditClick();
   },
 
+  addChanges() {
+    console.log('changes are being added');
+    this.props.onSubmitChangesClick();
+  },
+
   render() {
     return (
       <div>
@@ -30,6 +35,7 @@ export default React.createClass({
           <form>
             <label>Image URL: <input type="text" className="photo"/></label>
             <label>Caption: <input type="text" className="caption"/></label>
+            <button onClick={() => this.addChanges()}>Submit Changes</button>
           </form>
         </div>
       </div>
