@@ -10,7 +10,7 @@
 - Clone this repo
 - Run `npm install` to install all necessary dependencies
 - Run `gulp start` to start the server and a handful of other tasks
--Need to install Backbone, React, React-Dom
+- Need to install Backbone, React, React-Dom
 
 
 ## Assets Installed By Default
