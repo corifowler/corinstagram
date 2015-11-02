@@ -73,7 +73,7 @@ export default Backbone.Router.extend({
         onEditClick={() => this.goto('editphoto/' + id)}/>);
     } else {
       console.log('adding this model');
-      photoPost = this.collection.add(id);
+      photoPost = this.collection.add({objectId: id});
       photoPost.fetch().then( () => {
         this.render(<PhotoView 
           images={photoPost.toJSON()}
