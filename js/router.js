@@ -91,15 +91,15 @@ export default Backbone.Router.extend({
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
       onSubmitClick={() => {
+        let newUser = document.querySelector('.user').value;
         let newPhoto = document.querySelector('.photo').value;
         let newCaption = document.querySelector('.caption').value;
 
         let instaModel = new PhotoModel({
+          user: newUser,
           photo: newPhoto,
           caption: newCaption
         });
-
-        this.collection.add(instaModel);
 
         instaModel.save().then(() => {
           alert('Your post has been added!');

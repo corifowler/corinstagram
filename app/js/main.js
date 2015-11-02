@@ -256,15 +256,15 @@ exports['default'] = _backbone2['default'].Router.extend({
         return _this3.goto('addphoto');
       },
       onSubmitClick: function () {
+        var newUser = document.querySelector('.user').value;
         var newPhoto = document.querySelector('.photo').value;
         var newCaption = document.querySelector('.caption').value;
 
         var instaModel = new _resources.Photo({
+          user: newUser,
           photo: newPhoto,
           caption: newCaption
         });
-
-        _this3.collection.add(instaModel);
 
         instaModel.save().then(function () {
           alert('Your post has been added!');
@@ -350,7 +350,7 @@ exports['default'] = _react2['default'].createClass({
   },
 
   addNewPost: function addNewPost() {
-    console.log('new post being uploaded');
+    console.log('button should be submitting');
     this.props.onSubmitClick();
   },
 
@@ -388,6 +388,12 @@ exports['default'] = _react2['default'].createClass({
           _react2['default'].createElement(
             'label',
             null,
+            'User: ',
+            _react2['default'].createElement('input', { type: 'text', className: 'user' })
+          ),
+          _react2['default'].createElement(
+            'label',
+            null,
             'Image URL: ',
             _react2['default'].createElement('input', { type: 'text', className: 'photo' })
           ),
@@ -399,9 +405,7 @@ exports['default'] = _react2['default'].createClass({
           ),
           _react2['default'].createElement(
             'button',
-            { onClick: function () {
-                return _this.addNewPost();
-              } },
+            { onClick: this.addNewPost },
             'Submit Post'
           )
         )
@@ -501,9 +505,7 @@ exports['default'] = _react2['default'].createClass({
         ),
         _react2['default'].createElement(
           'button',
-          { onClick: function () {
-              return _this.addFormView();
-            } },
+          { onClick: this.addFormView },
           _react2['default'].createElement('i', { className: 'fa fa-plus' }),
           ' Add'
         ),
@@ -613,9 +615,7 @@ exports['default'] = _react2['default'].createClass({
         ),
         _react2['default'].createElement(
           'button',
-          { onClick: function () {
-              return _this2.addFormView();
-            } },
+          { onClick: this.addFormView },
           _react2['default'].createElement('i', { className: 'fa fa-plus' }),
           ' Add'
         ),
@@ -715,9 +715,7 @@ exports["default"] = _react2["default"].createClass({
         ),
         _react2["default"].createElement(
           "button",
-          { onClick: function () {
-              return _this.addFormView();
-            } },
+          { onClick: this.addFormView },
           _react2["default"].createElement("i", { className: "fa fa-plus" }),
           " Add"
         ),

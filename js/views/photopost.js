@@ -20,7 +20,7 @@ export default React.createClass({
         <div className="header">
           <img src="https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg"/>
           <button onClick={() => this.goHomeView()}><i className="fa fa-home"></i> Home</button>
-          <button onClick={() => this.addFormView()}><i className="fa fa-plus"></i> Add</button>
+          <button onClick={this.addFormView}><i className="fa fa-plus"></i> Add</button>
           <button onClick={() => this.editFormView()}><i className="fa fa-pencil"></i> Edit</button>
           <hr/>
         </div>

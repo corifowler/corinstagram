@@ -58,7 +58,7 @@ export default React.createClass({
           <img src="https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg"/>
           <button onClick={() => this.goBackView()}><i className="fa fa-chevron-left"></i> Back to Photo</button>
           <button onClick={() => this.goHomeView()}><i className="fa fa-home"></i> Home</button>
-          <button onClick={() => this.addFormView()}><i className="fa fa-plus"></i> Add</button>
+          <button onClick={this.addFormView}><i className="fa fa-plus"></i> Add</button>
           <hr/>
         </div> 
         <div className="edit-post">
