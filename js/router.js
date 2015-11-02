@@ -51,13 +51,13 @@ export default Backbone.Router.extend({
   showGallery() {
     this.spinner();
     this.collection.fetch().then( () => {
-    this.render(<GalleryView 
-      id={this.collection.objectId}
-      onHomeClick={() => this.goto('')} 
-      onAddClick={() => this.goto('addphoto')} 
-      onEditClick={() => this.goto('editphoto/' + id)}
-      onClick={(id) => this.goto('photopost/' + id)} 
-      images={this.collection.toJSON()}/>);
+      this.render(<GalleryView 
+        id={this.collection.objectId}
+        onHomeClick={() => this.goto('')} 
+        onAddClick={() => this.goto('addphoto')} 
+        onEditClick={() => this.goto('editphoto/' + id)}
+        onClick={(id) => this.goto('photopost/' + id)} 
+        images={this.collection.toJSON()}/>);
     });
   },
 
@@ -66,7 +66,6 @@ export default Backbone.Router.extend({
     let photoPost = this.collection.get(id);
 
     if (photoPost) {
-      console.log(photoPost);
       this.render(<PhotoView 
         images={photoPost.toJSON()}
         onHomeClick={() => this.goto('')}
@@ -113,23 +112,22 @@ export default Backbone.Router.extend({
     this.spinner();
     let editId = this.collection.get(id);
     this.render(<EditPost
-      stored={editId.toJSON()}
+      images={this.collection.toJSON()}
+      stored= {editId.toJSON()}
+      onBackClick={() => this.goto('photopost/' + id)}
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
       onSubmitChangesClick={() => {
+        id = document.querySelector('.id').value;
         let changedPhoto = document.querySelector('.photo').value;
         let changedCaption = document.querySelector('.caption').value;
 
-        let instaChange = new PhotoModel({
-          objectId: id,
+        this.collection.save({
+          objectId: stored.objectId,
           photo: changedPhoto,
           caption: changedCaption
-        });
-
-        this.collection.add(instaChange);
-
-        instaChange.save().then(() => {
-          alert('Your changes have been saved.');
+        }).then(() => {
+          alert('Your changes have been saved!');
           this.goto('');
         });}}/>
     );

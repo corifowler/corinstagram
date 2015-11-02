@@ -22,10 +22,12 @@ export default React.createClass({
       <div>
         <div className="header">
           <img src="https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg"/>
-          <button onClick={() => this.goHomeView()}>Home</button>
-          <button onClick={() => this.addFormView()}>Add</button>
+          <button onClick={() => this.goHomeView()}><i className="fa fa-home"></i> Back to Home</button>
+          <button onClick={() => this.addFormView()}><i className="fa fa-plus"></i> Add</button>
+          <hr/>
         </div> 
         <div className="new-post">
+          <h2>Add New Post</h2>
           <form>
             <label>Image URL: <input type="text" className="photo"/></label>
             <label>Caption: <input type="text" className="caption"/></label>

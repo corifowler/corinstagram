@@ -19,13 +19,14 @@ export default React.createClass({
       <div>
         <div className="header">
           <img src="https://scontent-atl3-1.cdninstagram.com/hphotos-xaf1/t51.2885-19/11356615_1636339316612588_613257064_a.jpg"/>
-          <button onClick={() => this.goHomeView()}>Home</button>
-          <button onClick={() => this.addFormView()}>Add</button>
-          <button onClick={() => this.editFormView()}>Edit</button>
+          <button onClick={() => this.goHomeView()}><i className="fa fa-home"></i> Home</button>
+          <button onClick={() => this.addFormView()}><i className="fa fa-plus"></i> Add</button>
+          <button onClick={() => this.editFormView()}><i className="fa fa-pencil"></i> Edit</button>
+          <hr/>
         </div>
         <div className="image-view" id={this.props.images.id}>
           <img src={this.props.images.photo}/>
-          <p>{this.props.images.caption}</p>
+          <p><span className="username">{this.props.images.user}</span> {this.props.images.caption}</p>
         </div>
       </div>
     );
