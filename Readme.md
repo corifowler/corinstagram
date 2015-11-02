@@ -1,6 +1,8 @@
-## Welcome to My Project
+## Welcome to Corinstagram
 
-> I am your Readme.md file, you should probably update me.
+* This is my first try at combining Backbone + React
+* Features include being able to add new posts and edit existing posts
+* Possible additions: delete, like button
 
 
 ## Usage
@@ -8,6 +10,7 @@
 - Clone this repo
 - Run `npm install` to install all necessary dependencies
 - Run `gulp start` to start the server and a handful of other tasks
+-Need to install Backbone, React, React-Dom
 
 
 ## Assets Installed By Default
