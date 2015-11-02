@@ -110,27 +110,47 @@ export default Backbone.Router.extend({
 
   editForm(id) {
     this.spinner();
-    let editId = this.collection.get(id);
+    let getId = this.collection.get(id);
+    console.log(getId);
     this.render(<EditPost
       images={this.collection.toJSON()}
-      stored= {editId.toJSON()}
+      stored= {getId.toJSON()}
       onBackClick={() => this.goto('photopost/' + id)}
       onHomeClick={() => this.goto('')}
       onAddClick={() => this.goto('addphoto')}
-      onSubmitChangesClick={() => {
-        id = document.querySelector('.id').value;
-        let changedPhoto = document.querySelector('.photo').value;
-        let changedCaption = document.querySelector('.caption').value;
-
-        this.collection.save({
-          objectId: stored.objectId,
-          photo: changedPhoto,
-          caption: changedCaption
-        }).then(() => {
-          alert('Your changes have been saved!');
-          this.goto('');
-        });}}/>
+      onSubmitChangesClick={(id, url, caption) => {
+      this.saveChanges(id, url, caption);}}/>
     );
+  },
+
+  saveChanges(id, url, caption) {
+    this.collection.get(id).save({
+      objectId: id,
+      photo: url,
+      caption: caption
+    }).then(() => {
+      alert('Your changes have been saved.');
+      this.goto('');
+    });
   }
 
 });
+
+
+
+
+// First Try
+
+      // onSubmitChangesClick={() => {
+      //   id = document.querySelector('.id').value;
+      //   let changedPhoto = document.querySelector('.photo').value;
+      //   let changedCaption = document.querySelector('.caption').value;
+
+      //   this.Photo.save({
+      //     objectId: stored.objectId,
+      //     photo: changedPhoto,
+      //     caption: changedCaption
+      //   }).then(() => {
+      //     alert('Your changes have been saved!');
+      //     this.goto('');
+        // });}}/>

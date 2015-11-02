@@ -38,8 +38,13 @@ export default React.createClass({
     this.props.onAddClick();
   },
 
-  addChanges() {
-    this.props.onSubmitChangesClick();
+  addChanges(event) {
+    event.preventDefault();
+    this.props.onSubmitChangesClick(
+      this.state.objectId,
+      this.state.photo,
+      this.state.caption
+    );
   },
 
   goBackView() {
@@ -62,7 +67,7 @@ export default React.createClass({
             <label>Id: <input onChange={this.setId} type="text" className="id" value={this.state.objectId}/></label>
             <label>Image URL: <input onChange={this.updatePhoto} type="text" className="photo" value={this.state.photo}/></label>
             <label>Caption: <input onChange={this.updateCaption} type="text" className="caption" value={this.state.caption}/></label>
-            <button onClick={() => this.addChanges()}>Submit Changes</button>
+            <button onClick={this.addChanges}>Submit Changes</button>
           </form>
         </div>
       </div>

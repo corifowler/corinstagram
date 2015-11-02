@@ -277,10 +277,11 @@ exports['default'] = _backbone2['default'].Router.extend({
     var _this4 = this;
 
     this.spinner();
-    var editId = this.collection.get(id);
+    var getId = this.collection.get(id);
+    console.log(getId);
     this.render(_react2['default'].createElement(_views.EditPost, {
       images: this.collection.toJSON(),
-      stored: editId.toJSON(),
+      stored: getId.toJSON(),
       onBackClick: function () {
         return _this4.goto('photopost/' + id);
       },
@@ -290,23 +291,41 @@ exports['default'] = _backbone2['default'].Router.extend({
       onAddClick: function () {
         return _this4.goto('addphoto');
       },
-      onSubmitChangesClick: function () {
-        id = document.querySelector('.id').value;
-        var changedPhoto = document.querySelector('.photo').value;
-        var changedCaption = document.querySelector('.caption').value;
-
-        _this4.collection.save({
-          objectId: stored.objectId,
-          photo: changedPhoto,
-          caption: changedCaption
-        }).then(function () {
-          alert('Your changes have been saved!');
-          _this4.goto('');
-        });
+      onSubmitChangesClick: function (id, url, caption) {
+        _this4.saveChanges(id, url, caption);
       } }));
+  },
+
+  saveChanges: function saveChanges(id, url, caption) {
+    var _this5 = this;
+
+    this.collection.get(id).save({
+      objectId: id,
+      photo: url,
+      caption: caption
+    }).then(function () {
+      alert('Your changes have been saved.');
+      _this5.goto('');
+    });
   }
 
 });
+
+// First Try
+
+// onSubmitChangesClick={() => {
+//   id = document.querySelector('.id').value;
+//   let changedPhoto = document.querySelector('.photo').value;
+//   let changedCaption = document.querySelector('.caption').value;
+
+//   this.Photo.save({
+//     objectId: stored.objectId,
+//     photo: changedPhoto,
+//     caption: changedCaption
+//   }).then(() => {
+//     alert('Your changes have been saved!');
+//     this.goto('');
+// });}}/>
 module.exports = exports['default'];
 
 },{"./resources":4,"./views":10,"backbone":13,"jquery":15,"react":173,"react-dom":17}],7:[function(require,module,exports){
@@ -328,11 +347,6 @@ exports['default'] = _react2['default'].createClass({
   goHomeView: function goHomeView() {
     console.log('home button being clicked');
     this.props.onHomeClick();
-  },
-
-  addFormView: function addFormView() {
-    console.log('this button is being clicked');
-    this.props.onAddClick();
   },
 
   addNewPost: function addNewPost() {
@@ -357,14 +371,6 @@ exports['default'] = _react2['default'].createClass({
             } },
           _react2['default'].createElement('i', { className: 'fa fa-home' }),
           ' Back to Home'
-        ),
-        _react2['default'].createElement(
-          'button',
-          { onClick: function () {
-              return _this.addFormView();
-            } },
-          _react2['default'].createElement('i', { className: 'fa fa-plus' }),
-          ' Add'
         ),
         _react2['default'].createElement('hr', null)
       ),
@@ -458,8 +464,9 @@ exports['default'] = _react2['default'].createClass({
     this.props.onAddClick();
   },
 
-  addChanges: function addChanges() {
-    this.props.onSubmitChangesClick();
+  addChanges: function addChanges(event) {
+    event.preventDefault();
+    this.props.onSubmitChangesClick(this.state.objectId, this.state.photo, this.state.caption);
   },
 
   goBackView: function goBackView() {
@@ -533,9 +540,7 @@ exports['default'] = _react2['default'].createClass({
           ),
           _react2['default'].createElement(
             'button',
-            { onClick: function () {
-                return _this.addChanges();
-              } },
+            { onClick: this.addChanges },
             'Submit Changes'
           )
         )
