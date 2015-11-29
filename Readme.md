@@ -1,5 +1,7 @@
 ## Welcome to Corinstagram
 
+> View project here: http://wary-reading.surge.sh/
+
 * This is my first try at combining Backbone + React
 * Features include being able to add new posts and edit existing posts
 * Possible additions: delete, like button

@@ -40,6 +40,8 @@ export default Backbone.Router.extend({
     this.navigate(route, {trigger: true});
   },
 
+
+
   redirectToGallery() {
     this.navigate('gallery', {replace: true, trigger: true});
   },
